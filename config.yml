@@ -1,0 +1,8 @@
+database:
+  server: 127.0.0.1
+  name: linky
+  user: linky
+  password: mypassword
+device: /dev/ttyS0
+use_utc: True
+period: 30
