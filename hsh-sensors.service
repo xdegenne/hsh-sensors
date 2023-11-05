@@ -1,7 +1,7 @@
 [Unit]
 Description=Python service fetching DHT sensor and putting data into InFluxDB
 After=network-online.target
-After=influxdb.service
+After=influxd.service
 
 [Service]
 Type=simple
