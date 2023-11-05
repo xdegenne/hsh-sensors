@@ -35,7 +35,7 @@ def read_sensor():
         try:
             temp = sensor.temperature
             humidity = sensor.humidity
-            log.debug(f"Temperature: {temp}*C   Humidity: {humidity}%", temp, humidity)
+            log.debug(f"Temperature: {temp}*C   Humidity: {humidity}%")
             value = [
                 {
                     "measurement": "dhtEvents",
