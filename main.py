@@ -8,7 +8,7 @@ import datetime, time, logging
 # Self libraries
 import utils
 
-log = logging.getLogger('hsh-sensors')
+log = utils.init_log_system()
 
 log.debug('Loading config...')
 config = utils.load_config()
