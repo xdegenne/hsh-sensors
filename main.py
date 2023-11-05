@@ -32,23 +32,26 @@ sensor = adafruit_dht.DHT11(board.D17)
 def read_sensor():
     value = None
     while value == None:
+        temp = None
+        humidity = None
         try:
             temp = sensor.temperature
             humidity = sensor.humidity
             log.debug(f"Temperature: {temp}*C   Humidity: {humidity}%")
-            value = [
-                {
-                    "measurement": "dhtEvents",
-                    "tags": {
-                        "sondeId": "D17"
-                    },
-                    "time": datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S'),
-                    "fields": {
-                        "temperature": temp,
-                        "humidity": humidity
+            if temp != None and humidity != None:
+                value = [
+                    {
+                        "measurement": "dhtEvents",
+                        "tags": {
+                            "sondeId": "D17"
+                        },
+                        "time": datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S'),
+                        "fields": {
+                            "temperature": temp,
+                            "humidity": humidity
+                        }
                     }
-                }
-            ]
+                ]
         except RuntimeError as error:
             log.error(error.args[0])
         except Exception as error:
