@@ -1,0 +1,14 @@
+[Unit]
+Description=Python service fetching DHT sensor and putting data into InFluxDB
+After=network-online.target
+After=influxdb.service
+
+[Service]
+Type=simple
+User=xdegenne
+Group=xdegenne
+ExecStart=/usr/bin/python3 /srv/hsh-sensors/main.py
+WorkingDirectory=/srv/hsh-sensors/
+
+[Install]
+WantedBy=multi-user.target
