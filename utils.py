@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 # stdlib
-import serial, MySQLdb, datetime, sys, logging, logging.handlers
+import sys, logging, logging.handlers
+from systemd.journal import JournaldLogHandler
 
 # 3rd party
 import yaml
@@ -22,12 +23,20 @@ def init_log_system(config):
     log = logging.getLogger('hsh-sensors')
     log.setLevel(logLevel) # Define minimum severity here
     
-    handler = logging.StreamHandler()
-    handler.setLevel(logLevel)
+    # instantiate the JournaldLogHandler to hook into systemd
+    handler = JournaldLogHandler()
+
+    # set a formatter to include the level name
+    handler.setFormatter(logging.Formatter(
+        '[%(levelname)s] %(message)s'
+    ))
+
+    # handler = logging.StreamHandler()
+    # handler.setLevel(logLevel)
 
     #handler = logging.handlers.RotatingFileHandler('./logs/hsh-sensors.log', maxBytes=1000000, backupCount=5) # Log file of 1 MB, 5 previous files kept
-    formatter = logging.Formatter('[%(asctime)s][%(module)s][%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S %z') # Custom line format and time format to include the module and delimit all of this well
-    handler.setFormatter(formatter)
+    #formatter = logging.Formatter('[%(asctime)s][%(module)s][%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S %z') # Custom line format and time format to include the module and delimit all of this well
+    #handler.setFormatter(formatter)
     log.addHandler(handler)
     #log.addHandler()
     log.info("Log initialized")
