@@ -12,12 +12,13 @@ import psutil
 # Self libraries
 import utils
 
-log = utils.init_log_system()
-
-log.debug('Loading config...')
+print('Loading config...')
 config = utils.load_config()
+print(f'Config loaded! Values: {config}')
+print('Setting logs ...')
+log = utils.init_log_system(config)
 
-log.debug(f'Config loaded! Values: {config}')
+
 period = int(config.get('period', 60))
 
 client = InfluxDBClient(host='localhost', port=8086)

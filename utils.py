@@ -6,16 +6,24 @@ import serial, MySQLdb, datetime, sys, logging, logging.handlers
 # 3rd party
 import yaml
 
+logLevels = {   'DEBUG': logging.DEBUG, 
+                'INFO': logging.INFO,
+                'WARNING': logging.WARNING,
+                'ERROR': logging.ERROR,
+                'CRITICAL': logging.CRITICAL,
+            }
 
-def init_log_system():
+def init_log_system(config):
     """
     Initializes log system
     """
+    logLevelStr = config.get('logLevel', 'WARNING')
+    logLevel = logLevels.get(logLevelStr, logging.WARNING)
     log = logging.getLogger('hsh-sensors')
-    log.setLevel(logging.DEBUG) # Define minimum severity here
+    log.setLevel(logLevel) # Define minimum severity here
     
     handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
+    handler.setLevel(logLevel)
 
     #handler = logging.handlers.RotatingFileHandler('./logs/hsh-sensors.log', maxBytes=1000000, backupCount=5) # Log file of 1 MB, 5 previous files kept
     formatter = logging.Formatter('[%(asctime)s][%(module)s][%(levelname)s] %(message)s', '%Y-%m-%d %H:%M:%S %z') # Custom line format and time format to include the module and delimit all of this well
